@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grafo interativo | Menor caminho</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#18232e;background:#fff}*{box-sizing:border-box}body{margin:0;background:#fff}button,select{font:inherit}button{cursor:pointer}main{max-width:1470px;min-height:100vh;margin:auto;padding:35px 42px 30px}.head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}.head h1{font-size:clamp(26px,2.5vw,38px);margin:0 0 8px;color:#121c28}.head p{margin:0;color:#5b6875;font-size:15px}.tag{font-size:13px;color:#0a5b7e;border:1px solid #cbdde4;background:#f5fafc;border-radius:99px;padding:9px 14px;white-space:nowrap}.body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(340px,.85fr);gap:26px;align-items:stretch}.graph-area,.panel{border:1px solid #dce3e8;border-radius:16px;background:#fff}.graph-area{padding:18px 18px 9px;min-height:550px;display:flex;flex-direction:column}.graph-header{display:flex;align-items:center;justify-content:space-between;gap:10px}.graph-header h2{font-size:17px;margin:0;color:#18384a}.legend{display:flex;align-items:center;gap:16px;font-size:12px;color:#59646d}.legend span{display:flex;align-items:center;gap:7px}.dot{width:18px;height:5px;border-radius:4px;background:#f36f32;display:inline-block}.dot.gray{background:#24333b;height:3px}.graph{display:block;width:100%;flex:1;min-height:360px;max-height:560px;overflow:visible}.edge{stroke:#222d33;stroke-width:2.6;stroke-linecap:round;transition:stroke .28s,stroke-width .28s,opacity .28s}.edge.used{stroke:#f36f32;stroke-width:5}.node{fill:#12658b;stroke:#103a50;stroke-width:2.2}.node.current{fill:#f36f32;stroke:#b94518;stroke-width:3.5}.node.visited{stroke:#f36f32;stroke-width:4}.letter{fill:white;font-size:29px;font-weight:600;text-anchor:middle;dominant-baseline:middle}.edge-label{font-size:24px;fill:#111;dominant-baseline:middle;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:7px;stroke-linejoin:round}.graph-footer{color:#6b7680;font-size:12px;margin:0 4px 5px}.panel{padding:23px;display:flex;flex-direction:column;gap:18px}.panel h2{font-size:21px;margin:0}.fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-weight:700;font-size:13px;color:#4b5863;margin-bottom:7px}.field select{width:100%;border:1px solid #bac8d1;background:#fff;color:#172936;border-radius:9px;padding:12px;outline-offset:3px}.modes{display:grid;grid-template-columns:1fr 1fr;gap:9px}.mode{font-size:14px;border:1px solid #bdcbd3;background:white;color:#17516c;padding:12px 7px;border-radius:9px;font-weight:700}.mode.active{background:#12658b;color:#fff;border-color:#12658b}.result{border-top:1px solid #e2e8ec;padding-top:20px}.small{font-size:12px;color:#71808b;letter-spacing:1px;font-weight:700;text-transform:uppercase}.route{font-size:clamp(19px,1.7vw,26px);font-weight:750;color:#1c3645;line-height:1.5;overflow-wrap:anywhere;margin:8px 0 18px}.cost-block{display:flex;justify-content:space-between;align-items:center;gap:15px}.cost{font-size:43px;font-weight:800;color:#d8561b;line-height:1.15}.math{color:#5c6974;margin-top:8px;font-size:14px;min-height:21px}.steps-box{border:1px solid #f1d8c7;background:#fffaf7;border-radius:12px;padding:16px;display:none}.steps-box.visible{display:block}.steps-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.steps-head strong{color:#8f3a14}.progress{background:#f5e1d4;border-radius:99px;height:7px;overflow:hidden;margin:12px 0}.progress-fill{height:100%;background:#ed7136;width:0;transition:width .28s}.explain{min-height:50px;line-height:1.5;font-size:14px;color:#4d5358}.step-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}.step-actions button{border:1px solid #d4a98b;color:#9a451f;background:white;border-radius:8px;padding:9px 5px;font-size:13px;font-weight:700}.step-actions button.primary{background:#e86c30;border-color:#e86c30;color:white}.step-actions button:disabled{opacity:.38;cursor:default}.tip{font-size:12px;color:#6c7882;line-height:1.5;margin-top:auto}.error{color:#ae361f;font-weight:600}button:focus-visible,select:focus-visible{outline:3px solid #74b7d5;outline-offset:2px}@media(max-width:920px){main{padding:20px 16px}.body{grid-template-columns:1fr}.graph-area{min-height:400px}.graph{max-height:450px}.panel{padding:18px}.head{align-items:flex-start}.tag{display:none}}@media(max-width:500px){.legend{gap:8px;font-size:10px}.graph-area{padding:12px}.graph{min-height:270px}.panel{gap:14px}.route{font-size:20px}.mode{font-size:12px}.head h1{font-size:27px}}
+</style></head><body>
+<main>
+  <header class="head"><div><h1>Menor caminho no grafo</h1><p>Escolha a origem e o destino para encontrar e visualizar o caminho de menor custo.</p></div><span class="tag">Algoritmo de Dijkstra · 6 vértices · 9 arestas</span></header>
+  <div class="body">
+    <section class="graph-area" aria-label="Grafo ponderado">
+      <div class="graph-header"><h2>Grafo original</h2><div class="legend"><span><i class="dot gray"></i> Conexão</span><span><i class="dot"></i> Menor caminho</span></div></div>
+      <svg class="graph" viewBox="0 0 760 485" role="img" aria-label="Grafo com seis vértices I, Ç, R, M, P e T, e nove arestas ponderadas">
+      <g id="edge-layer"></g><g id="node-layer"></g>
+      </svg>
+      <p class="graph-footer">As conexões são bidirecionais. Os números representam seus custos.</p>
+    </section>
+    <aside class="panel">
+      <h2>Encontre seu caminho</h2>
+      <div class="fields">
+        <div class="field"><label for="origem">Ponto inicial</label><select id="origem"></select></div>
+        <div class="field"><label for="destino">Ponto de destino</label><select id="destino"></select></div>
+      </div>
+      <div class="modes" aria-label="Modo de visualização">
+        <button type="button" class="mode active" id="direct" aria-pressed="true">Ver resultado direto</button>
+        <button type="button" class="mode" id="walk" aria-pressed="false">Ver passo a passo</button>
+      </div>
+      <div class="result" aria-live="polite">
+        <div class="small" id="route-label">Menor caminho encontrado</div>
+        <div class="route" id="route"></div>
+        <div class="cost-block"><span class="small" id="cost-label">Custo total</span><strong class="cost" id="cost"></strong></div>
+        <div class="math" id="math"></div>
+      </div>
+      <div class="steps-box" id="steps-box">
+        <div class="steps-head"><strong>Travessia do caminho</strong><span class="small" id="step-count"></span></div>
+        <div class="progress"><div class="progress-fill" id="progress"></div></div>
+        <div class="explain" id="explain" aria-live="polite"></div>
+        <div class="step-actions"><button id="previous" type="button">← Anterior</button><button id="next" type="button" class="primary">Próximo →</button><button id="finish" type="button">Ver tudo</button></div>
+      </div>
+      <p class="tip">No modo passo a passo, cada clique avança por uma aresta da rota mínima e atualiza o custo acumulado. O algoritmo encontra a rota primeiro; a animação mostra a travessia dessa rota.</p>
+    </aside>
+  </div>
+</main>
+<script>
+'use strict';
+const nodes={I:[80,245],'Ç':[232,88],R:[232,403],M:[513,88],P:[513,403],T:[675,245]};
+const vertices=['I','Ç','R','M','P','T'];
+const edges=[['I','Ç',40],['I','R',20],['Ç','R',10],['Ç','M',50],['R','M',80],['R','P',100],['M','P',20],['M','T',60],['P','T',30]];
+const labels={ 'I|Ç':[130,142], 'I|R':[129,332], 'Ç|R':[265,247], 'Ç|M':[370,58], 'R|M':[381,216], 'R|P':[373,447], 'M|P':[543,248], 'M|T':[611,145], 'P|T':[617,333]};
+const ns='http://www.w3.org/2000/svg';const $=id=>document.getElementById(id);
+let mode='direct',step=0,solution=null;
+function svgEl(tag,attrs,parent,text){const el=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);if(text!==undefined)el.textContent=text;parent.append(el);return el;}
+function edgeKey(a,b){return [a,b].sort().join('|')}
+function createGraph(){const el=$('edge-layer');for(const [a,b,w] of edges){const [x1,y1]=nodes[a],[x2,y2]=nodes[b];svgEl('line',{x1,y1,x2,y2,class:'edge','data-key':edgeKey(a,b)},el);}
+for(const [a,b,w] of edges){const [x,y]=labels[`${a}|${b}`];svgEl('text',{x,y,class:'edge-label'},el,String(w));}
+const layer=$('node-layer');for(const [n,[cx,cy]] of Object.entries(nodes)){const g=svgEl('g',{},layer);svgEl('circle',{cx,cy,r:30,class:'node','data-node':n},g);svgEl('text',{x:cx,y:cy+2,class:'letter'},g,n);}}
+function calculate(start,end){const dist=Object.fromEntries(vertices.map(v=>[v,Infinity])),previous={},done=new Set();dist[start]=0;
+while(done.size<vertices.length){const current=vertices.filter(v=>!done.has(v)).sort((a,b)=>dist[a]-dist[b])[0];if(!current||dist[current]===Infinity)break;done.add(current);if(current===end)break;
+for(const [a,b,w] of edges){const neighbor=a===current?b:b===current?a:null;if(neighbor!==null&&!done.has(neighbor)&&dist[current]+w<dist[neighbor]){dist[neighbor]=dist[current]+w;previous[neighbor]=current;}}}
+const route=[];for(let v=end;v!==undefined;v=previous[v])route.unshift(v);const weights=route.slice(1).map((v,i)=>edges.find(([a,b])=>edgeKey(a,b)===edgeKey(v,route[i]))[2]);return {route,weights,cost:dist[end]};}
+function render(){if(!solution)return;const {route,weights,cost}=solution;const visible=mode==='direct'?weights.length:step;const traversed=route.slice(0,visible+1);const selected=new Set(traversed.slice(1).map((v,i)=>edgeKey(v,traversed[i])));
+document.querySelectorAll('.edge').forEach(el=>el.classList.toggle('used',selected.has(el.dataset.key)));
+document.querySelectorAll('.node').forEach(el=>{el.classList.toggle('visited',traversed.includes(el.dataset.node));el.classList.toggle('current',mode==='walk'&&traversed[traversed.length-1]===el.dataset.node);});
+const subtotal=weights.slice(0,visible).reduce((a,b)=>a+b,0);$('route-label').textContent=mode==='direct'?'Menor caminho encontrado':'Caminho percorrido';$('route').textContent=traversed.join(' → ');$('cost-label').textContent=mode==='direct'?'Custo mínimo':'Custo acumulado';$('cost').textContent=mode==='direct'?cost:subtotal;
+$('math').textContent=visible>0?weights.slice(0,visible).join(' + ')+' = '+subtotal:'Origem selecionada: '+route[0]+' · Custo inicial: 0';
+$('steps-box').classList.toggle('visible',mode==='walk');$('step-count').textContent=`${visible} / ${weights.length} arestas`;$('progress').style.width=(weights.length?100*visible/weights.length:100)+'%';
+if(visible===0){$('explain').textContent=weights.length?`Partimos do vértice ${route[0]}. Clique em “Próximo” para percorrer a primeira aresta.`:'Origem e destino são iguais. O custo mínimo é zero.';}
+else {$('explain').textContent=`${route[visible-1]} → ${route[visible]}: custo da aresta = ${weights[visible-1]}. Total acumulado = ${subtotal}.`+(visible===weights.length?' Destino alcançado!':'');}
+$('previous').disabled=visible===0;$('next').disabled=visible===weights.length;$('finish').disabled=visible===weights.length;
+}
+function recalc(){solution=calculate($('origem').value,$('destino').value);step=0;render();}
+function setMode(next){mode=next;step=0;$('direct').classList.toggle('active',mode==='direct');$('walk').classList.toggle('active',mode==='walk');$('direct').setAttribute('aria-pressed',String(mode==='direct'));$('walk').setAttribute('aria-pressed',String(mode==='walk'));render();}
+createGraph();for(const id of ['origem','destino'])for(const v of vertices){const opt=document.createElement('option');opt.textContent=v;opt.value=v;$(id).append(opt);}
+$('origem').value='I';$('destino').value='T';$('origem').addEventListener('change',recalc);$('destino').addEventListener('change',recalc);$('direct').addEventListener('click',()=>setMode('direct'));$('walk').addEventListener('click',()=>setMode('walk'));$('previous').addEventListener('click',()=>{step=Math.max(0,step-1);render()});$('next').addEventListener('click',()=>{step=Math.min(solution.weights.length,step+1);render()});$('finish').addEventListener('click',()=>{step=solution.weights.length;render()});recalc();
+</script></body></html>
